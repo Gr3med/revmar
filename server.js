@@ -12,10 +12,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
-//app.use(express.static(__dirname)); // لعرض ملف index.html
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'mr.html'));
-});
+app.use(express.static(__dirname)); // لعرض ملف index.html
+
 let db;
 let newReviewsCounter = 0;
 
