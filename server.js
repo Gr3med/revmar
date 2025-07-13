@@ -10,7 +10,8 @@ const { sendCumulativeReport } = require('./notifications.js');
 const { createCumulativePdfReport } = require('./createPdfReport.js');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+// في ملف server.js
+const PORT = process.env.PORT || 3000; // هذا السطر مهم جدًا
 
 app.use(cors());
 app.use(express.json());
