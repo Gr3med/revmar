@@ -219,14 +219,21 @@ async function createCumulativePdfReport(stats, recentReviews) {
 
     let browser = null;
     try {
-       const browser = await puppeteer.launch({
-    // لا نحدد executablePath، puppeteer سيعرف المسار بنفسه
-    // هذه الإعدادات ضرورية لبيئة Linux السحابية
+      // في ملف createPdfReport.js
+
+const browser = await puppeteer.launch({
+    headless: true,
+    // هذه هي أهم الإعدادات لبيئة محدودة الموارد مثل Render
     args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage', // مهم جدًا على Render
-        '--single-process'
+        // الإضافات الجديدة لتقليل استهلاك الذاكرة
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--no-first-run',
+        '--no-zygote',
+        '--single-process', // مهم جدًا
+        '--disable-gpu'
     ]
 });
         const page = await browser.newPage();
