@@ -13,13 +13,11 @@
             --form-background: #ffffff;
             --text-color: #333;
             --star-color: #ffc107;
+            --success-color: #28a745;
+            --error-color: #dc3545;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Tajawal', sans-serif;
@@ -39,120 +37,52 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             width: 100%;
             max-width: 600px;
-            transition: all 0.3s ease-in-out;
         }
 
-        .form-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .form-header h1 {
-            color: var(--primary-color);
-            font-weight: 700;
-            font-size: 2em;
-        }
-
-        .form-header p {
-            color: #6c757d;
-            font-size: 1.1em;
-        }
-
-        .form-group {
-            flex: 1;
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            font-weight: 700;
-            display: block;
-            margin-bottom: 8px;
-            color: var(--primary-color);
-        }
-
+        .form-header { text-align: center; margin-bottom: 30px; }
+        .form-header h1 { color: var(--primary-color); font-weight: 700; font-size: 2em; }
+        .form-header p { color: #6c757d; font-size: 1.1em; }
+        .form-group { flex: 1; margin-bottom: 25px; }
+        .form-group label { font-weight: 700; display: block; margin-bottom: 8px; color: var(--primary-color); }
         .form-group input[type="text"],
         .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ced4da;
-            border-radius: 8px;
-            font-size: 16px;
-            font-family: 'Tajawal', sans-serif;
+            width: 100%; padding: 12px; border: 1px solid #ced4da;
+            border-radius: 8px; font-size: 16px; font-family: 'Tajawal', sans-serif;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
-
         .form-group input:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
+            outline: none; border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(0, 60, 113, 0.1);
         }
-        
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-        
-        .rating-group .stars {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: flex-end;
-        }
-
-        .rating-group .stars input[type="radio"] {
-            display: none;
-        }
-
+        .form-group textarea { resize: vertical; min-height: 120px; }
+        .rating-group .stars { display: flex; flex-direction: row-reverse; justify-content: flex-end; }
+        .rating-group .stars input[type="radio"] { display: none; }
         .rating-group .stars label {
-            font-size: 35px;
-            color: #e4e5e9;
-            cursor: pointer;
-            transition: color 0.2s ease;
-            margin: 0 3px;
+            font-size: 35px; color: #e4e5e9; cursor: pointer;
+            transition: color 0.2s ease; margin: 0 3px;
         }
-
         .rating-group .stars input[type="radio"]:checked ~ label,
         .rating-group .stars label:hover,
-        .rating-group .stars label:hover ~ label {
-            color: var(--star-color);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 700;
-            color: white;
-            background: linear-gradient(90deg, #25D366, #128C7E); /* WhatsApp Gradient */
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 20px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-        }
+        .rating-group .stars label:hover ~ label { color: var(--star-color); }
         
-        .alert {
-            padding: 15px;
-            background-color: #e0f2f1; /* Light Teal */
-            color: #004d40; /* Dark Teal */
-            border: 1px solid #b2dfdb;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            text-align: center;
+        .submit-btn {
+            width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 18px;
+            font-weight: 700; color: white; background: var(--primary-color);
+            cursor: pointer; transition: transform 0.2s, background-color 0.2s; margin-top: 10px;
         }
+        .submit-btn:hover { transform: translateY(-2px); background: #002c52; }
+        .submit-btn:disabled { background-color: #a0a0a0; cursor: not-allowed; }
 
-        /* --- Mobile Responsive Code --- */
+        .message-area {
+            min-height: 24px; text-align: center; font-weight: bold;
+            padding: 10px; border-radius: 5px; margin-top: 20px; display: none;
+        }
+        .message-area.success { background-color: #e9f7ef; color: var(--success-color); display: block; }
+        .message-area.error { background-color: #f8d7da; color: var(--error-color); display: block; }
+        
         @media (max-width: 600px) {
-            .container {
-                padding: 25px;
-            }
-            .form-header h1 {
-                font-size: 1.8em;
-            }
+            .container { padding: 25px; }
+            .form-header h1 { font-size: 1.8em; }
         }
     </style>
 </head>
@@ -165,10 +95,6 @@
                 <p>ساعدنا لنقدم لك وللآخرين تجربة لا تُنسى.</p>
             </div>
             
-            <div class="alert">
-                <strong>ملاحظة:</strong> بعد الضغط على "إرسال"، ستفتح نافذة الواتساب لإكمال الإرسال.
-            </div>
-
             <div class="form-group">
                 <label for="roomNumber">رقم الغرفة</label>
                 <input type="text" id="roomNumber" name="roomNumber" placeholder="مثال: 304" required>
@@ -179,7 +105,7 @@
             <div class="form-group rating-group">
                 <label>ما هو تقييمك لمستوى النظافة؟</label>
                 <div class="stars">
-                    <input type="radio" id="c5" name="cleanliness" value="5"><label for="c5">★</label>
+                    <input type="radio" id="c5" name="cleanliness" value="5" required><label for="c5">★</label>
                     <input type="radio" id="c4" name="cleanliness" value="4"><label for="c4">★</label>
                     <input type="radio" id="c3" name="cleanliness" value="3"><label for="c3">★</label>
                     <input type="radio" id="c2" name="cleanliness" value="2"><label for="c2">★</label>
@@ -190,7 +116,7 @@
             <div class="form-group rating-group">
                 <label>كيف تقيّم خدمات الاستقبال وسرعة الإجراءات؟</label>
                 <div class="stars">
-                    <input type="radio" id="r5" name="reception" value="5"><label for="r5">★</label>
+                    <input type="radio" id="r5" name="reception" value="5" required><label for="r5">★</label>
                     <input type="radio" id="r4" name="reception" value="4"><label for="r4">★</label>
                     <input type="radio" id="r3" name="reception" value="3"><label for="r3">★</label>
                     <input type="radio" id="r2" name="reception" value="2"><label for="r2">★</label>
@@ -201,7 +127,7 @@
             <div class="form-group rating-group">
                 <label>ما هو تقييمك للخدمات بشكل عام؟</label>
                 <div class="stars">
-                    <input type="radio" id="s5" name="services" value="5"><label for="s5">★</label>
+                    <input type="radio" id="s5" name="services" value="5" required><label for="s5">★</label>
                     <input type="radio" id="s4" name="services" value="4"><label for="s4">★</label>
                     <input type="radio" id="s3" name="services" value="3"><label for="s3">★</label>
                     <input type="radio" id="s2" name="services" value="2"><label for="s2">★</label>
@@ -214,47 +140,72 @@
                 <textarea id="comments" name="comments" placeholder="اكتب هنا عن أي شيء أعجبك أو لم يعجبك..."></textarea>
             </div>
 
-            <button type="button" id="submit-evaluation" class="submit-btn">إرسال التقييم عبر واتساب</button>
+            <div id="message-area" class="message-area"></div>
+
+            <button type="submit" id="submit-evaluation" class="submit-btn">إرسال التقييم</button>
         </form>
     </div>
 
     <script>
-        // --- !! IMPORTANT: Change this value !! ---
-        const HOTEL_WHATSAPP = '967774620225'; // <-- Put the hotel's WhatsApp number here (with country code)
-        // ---------------------------------------------
+        // --- الرابط الخاص بالسيرفر المحلي ---
+        const API_URL = 'http://localhost:3000/api/review';
+        // ------------------------------------
 
-        document.getElementById('submit-evaluation').addEventListener('click', function() {
-            // This is the check to ensure the user has changed the placeholder value.
-            if (HOTEL_WHATSAPP === '966000000000') {
-                alert('يرجى تعديل ملف HTML وإدخال رقم الواتساب الصحيح للفندق أولاً.');
+        const form = document.getElementById('evaluationForm');
+        const submitBtn = document.getElementById('submit-evaluation');
+        const messageArea = document.getElementById('message-area');
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault(); // منع الإرسال التقليدي للنموذج
+            
+            // التحقق من صحة النموذج
+            if (!form.checkValidity()) {
+                showMessage('الرجاء ملء جميع الحقول المطلوبة.', 'error');
+                form.reportValidity(); // عرض رسائل التحقق المدمجة في المتصفح
                 return;
             }
 
-            const messageBody = buildMessage();
+            // تعطيل الزر لمنع الإرسال المتكرر
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'جاري الإرسال...';
             
-            // Prepare WhatsApp URL
-            const whatsappUrl = `https://api.whatsapp.com/send?phone=${HOTEL_WHATSAPP}&text=${encodeURIComponent(messageBody)}`;
-            
-            // Open WhatsApp in a new tab
-            window.open(whatsappUrl, '_blank');
+            const formData = {
+                roomNumber: document.getElementById('roomNumber').value,
+                cleanliness: document.querySelector('input[name="cleanliness"]:checked')?.value,
+                reception: document.querySelector('input[name="reception"]:checked')?.value,
+                services: document.querySelector('input[name="services"]:checked')?.value,
+                comments: document.getElementById('comments').value
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showMessage(result.message, 'success');
+                    form.reset(); // إعادة تعيين النموذج بعد الإرسال الناجح
+                } else {
+                    throw new Error(result.message || 'حدث خطأ غير متوقع.');
+                }
+
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                showMessage('لا يمكن الاتصال بالسيرفر. يرجى المحاولة مرة أخرى.', 'error');
+            } finally {
+                // إعادة تفعيل الزر بعد انتهاء العملية
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'إرسال التقييم';
+            }
         });
 
-        function buildMessage() {
-            const roomNumber = document.getElementById('roomNumber').value || 'لم يحدد';
-            const cleanliness = document.querySelector('input[name="cleanliness"]:checked')?.value || 'لم يحدد';
-            const reception = document.querySelector('input[name="reception"]:checked')?.value || 'لم يحدد';
-            const services = document.querySelector('input[name="services"]:checked')?.value || 'لم يحدد';
-            const comments = document.getElementById('comments').value;
-
-            return `تقييم جديد من نزيل الغرفة رقم: ${roomNumber}
--------------------------
-النظافة: ${cleanliness} نجوم
-خدمات الاستقبال: ${reception} نجوم
-الخدمات بشكل عام: ${services} نجوم
--------------------------
-
-الملاحظات الإضافية:
-${comments}`;
+        function showMessage(message, type) {
+            messageArea.className = `message-area ${type}`;
+            messageArea.textContent = message;
         }
     </script>
 
