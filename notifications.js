@@ -1,51 +1,27 @@
 const nodemailer = require('nodemailer');
-const axios = require('axios');
-const config = require('./config');
+const config = require('./config.js');
 
-// وظيفة لإرسال إشعار عبر البريد الإلكتروني
-async function sendEmailNotification(message) {
-    if (!config.email.enabled) {
-        console.log("إرسال البريد الإلكتروني معطل في الإعدادات.");
-        return;
-    }
+async function sendCumulativeReport(pdfPath, totalReviews) {
+    if (!config.email.enabled) return;
 
     try {
         const transporter = nodemailer.createTransport(config.email.sender);
-        
         await transporter.sendMail({
-            from: `"تقييمات فندق ماريوت" <${config.email.sender.auth.user}>`,
+            from: `"تقارير الفندق التراكمية" <${config.email.sender.auth.user}>`,
             to: config.email.recipient,
-            subject: '🛎️ إشعار بتقييم جديد من نزيل!', // <-- عنوان جديد ومناسب
-            text: message,
-            html: `<div dir="rtl" style="font-family: Arial, sans-serif; line-height: 1.6; white-space: pre-wrap;">${message}</div>`
+            subject: `📊 تقرير تقييم تراكمي جديد (الإجمالي: ${totalReviews} تقييم)`,
+            html: `<div dir="rtl"><p>مرحبًا،</p><p>تم استلام مجموعة جديدة من التقييمات. مرفق طيه التقرير التراكمي المحدّث.</p></div>`,
+            attachments: [{
+                filename: `Cumulative-Report-${totalReviews}-reviews.pdf`,
+                path: pdfPath,
+                contentType: 'application/pdf'
+            }]
         });
-
-        console.log('تم إرسال إشعار البريد الإلكتروني بنجاح.');
+        console.log('📧 Cumulative PDF report sent successfully.');
     } catch (error) {
-        console.error('خطأ أثناء إرسال البريد الإلكتروني:', error);
+        console.error('❌ Error sending cumulative PDF report:', error);
+        throw error;
     }
 }
 
-// وظيفة لإرسال إشعار عبر بوت الواتساب
-async function sendWhatsAppNotification(message) {
-    if (!config.whatsapp.enabled) {
-        console.log("إرسال الواتساب معطل في الإعدادات.");
-        return;
-    }
-
-    if (!config.whatsapp.botWebhookUrl || config.whatsapp.botWebhookUrl === 'https://api.yourbot.com/sendMessage') {
-        console.error("الرجاء تحديد رابط Webhook صحيح لبوت الواتساب في ملف config.js");
-        return;
-    }
-
-    try {
-        await axios.post(config.whatsapp.botWebhookUrl, {
-            message: message // افترضنا أن البوت الخاص بك يقبل حقل 'message'
-        });
-        console.log('تم إرسال إشعار الواتساب بنجاح.');
-    } catch (error) {
-        console.error('خطأ أثناء إرسال إشعار الواتساب:', error.message);
-    }
-}
-
-module.exports = { sendEmailNotification, sendWhatsAppNotification };
+module.exports = { sendCumulativeReport };

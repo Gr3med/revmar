@@ -6,7 +6,7 @@ module.exports = {
 email: {
     enabled: true, 
     // للتجربة، ضع نفس الإيميل هنا
-    recipient: 'tst.re7122@gmail.com', 
+    recipient: 'mari.hotel2025@gmail.com', 
     
     sender: {
         host: 'smtp.gmail.com',
