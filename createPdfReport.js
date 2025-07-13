@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer-core');
+const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 
@@ -219,11 +219,16 @@ async function createCumulativePdfReport(stats, recentReviews) {
 
     let browser = null;
     try {
-        browser = await puppeteer.launch({
-            executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-            headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
+       const browser = await puppeteer.launch({
+    // لا نحدد executablePath، puppeteer سيعرف المسار بنفسه
+    // هذه الإعدادات ضرورية لبيئة Linux السحابية
+    args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage', // مهم جدًا على Render
+        '--single-process'
+    ]
+});
         const page = await browser.newPage();
         await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
         await page.pdf({
