@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مراجعة الإقامة | فندق ماريوت</title>
+    <title>تقييم الإقامة | فندق ماريوت</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -42,30 +42,6 @@
             transition: all 0.3s ease-in-out;
         }
 
-        #feedback-form.hidden, #thank-you-message.hidden {
-            display: none;
-        }
-        
-        #thank-you-message {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        #thank-you-message .icon {
-            font-size: 60px;
-            color: #28a745;
-            margin-bottom: 20px;
-        }
-        
-        #thank-you-message h2 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-        
-        #thank-you-message p {
-            font-size: 1.1em;
-        }
-
         .form-header {
             text-align: center;
             margin-bottom: 30px;
@@ -81,16 +57,10 @@
             color: #6c757d;
             font-size: 1.1em;
         }
-        
-        .form-row {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
+
         .form-group {
             flex: 1;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .form-group label {
@@ -154,7 +124,7 @@
             font-size: 18px;
             font-weight: 700;
             color: white;
-            background: linear-gradient(90deg, var(--secondary-color), #c89a50);
+            background: linear-gradient(90deg, #25D366, #128C7E); /* WhatsApp Gradient */
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             margin-top: 20px;
@@ -162,17 +132,23 @@
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(212, 167, 92, 0.4);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+        
+        .alert {
+            padding: 15px;
+            background-color: #e0f2f1; /* Light Teal */
+            color: #004d40; /* Dark Teal */
+            border: 1px solid #b2dfdb;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        /* --- !! كود التجاوب مع الجوالات !! --- */
+        /* --- Mobile Responsive Code --- */
         @media (max-width: 600px) {
             .container {
                 padding: 25px;
-            }
-            .form-row {
-                flex-direction: column; /* يجعل الحقول تحت بعضها */
-                gap: 0;
             }
             .form-header h1 {
                 font-size: 1.8em;
@@ -183,21 +159,19 @@
 <body>
 
     <div class="container">
-        <form id="feedback-form">
+        <form id="evaluationForm">
             <div class="form-header">
                 <h1>نقدّر رأيك في إقامتك</h1>
-                <p>ساعدنا لنقدم لك وللآخرين تجربة لا تُنسى في المستقبل.</p>
+                <p>ساعدنا لنقدم لك وللآخرين تجربة لا تُنسى.</p>
+            </div>
+            
+            <div class="alert">
+                <strong>ملاحظة:</strong> بعد الضغط على "إرسال"، ستفتح نافذة الواتساب لإكمال الإرسال.
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="guestName">اسم النزيل (اختياري)</label>
-                    <input type="text" id="guestName" name="guestName">
-                </div>
-                <div class="form-group">
-                    <label for="roomNumber">رقم الغرفة</label>
-                    <input type="text" id="roomNumber" name="roomNumber" required>
-                </div>
+            <div class="form-group">
+                <label for="roomNumber">رقم الغرفة</label>
+                <input type="text" id="roomNumber" name="roomNumber" placeholder="مثال: 304" required>
             </div>
 
             <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
@@ -223,33 +197,65 @@
                     <input type="radio" id="r1" name="reception" value="1"><label for="r1">★</label>
                 </div>
             </div>
+
+            <div class="form-group rating-group">
+                <label>ما هو تقييمك للخدمات بشكل عام؟</label>
+                <div class="stars">
+                    <input type="radio" id="s5" name="services" value="5"><label for="s5">★</label>
+                    <input type="radio" id="s4" name="services" value="4"><label for="s4">★</label>
+                    <input type="radio" id="s3" name="services" value="3"><label for="s3">★</label>
+                    <input type="radio" id="s2" name="services" value="2"><label for="s2">★</label>
+                    <input type="radio" id="s1" name="services" value="1"><label for="s1">★</label>
+                </div>
+            </div>
             
             <div class="form-group">
                 <label for="comments">هل لديك أي ملاحظات أو اقتراحات أخرى؟</label>
                 <textarea id="comments" name="comments" placeholder="اكتب هنا عن أي شيء أعجبك أو لم يعجبك..."></textarea>
             </div>
 
-            <button type="submit" class="submit-btn">إرسال التقييم</button>
+            <button type="button" id="submit-evaluation" class="submit-btn">إرسال التقييم عبر واتساب</button>
         </form>
-
-        <div id="thank-you-message" class="hidden">
-            <div class="icon">✓</div>
-            <h2>شكراً لك!</h2>
-            <p>تم استلام تقييمك بنجاح. نتمنى أن نراك قريباً مرة أخرى.</p>
-        </div>
     </div>
 
     <script>
-        document.getElementById('feedback-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // يمنع الإرسال الفعلي للنموذج
+        // --- !! IMPORTANT: Change this value !! ---
+        const HOTEL_WHATSAPP = '967774620225'; // <-- Put the hotel's WhatsApp number here (with country code)
+        // ---------------------------------------------
 
-            // هنا سيقوم المطور بربط النموذج بالخادم
-            // ...
+        document.getElementById('submit-evaluation').addEventListener('click', function() {
+            // This is the check to ensure the user has changed the placeholder value.
+            if (HOTEL_WHATSAPP === '966000000000') {
+                alert('يرجى تعديل ملف HTML وإدخال رقم الواتساب الصحيح للفندق أولاً.');
+                return;
+            }
 
-            // إخفاء النموذج وإظهار رسالة الشكر
-            document.getElementById('feedback-form').classList.add('hidden');
-            document.getElementById('thank-you-message').classList.remove('hidden');
+            const messageBody = buildMessage();
+            
+            // Prepare WhatsApp URL
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${HOTEL_WHATSAPP}&text=${encodeURIComponent(messageBody)}`;
+            
+            // Open WhatsApp in a new tab
+            window.open(whatsappUrl, '_blank');
         });
+
+        function buildMessage() {
+            const roomNumber = document.getElementById('roomNumber').value || 'لم يحدد';
+            const cleanliness = document.querySelector('input[name="cleanliness"]:checked')?.value || 'لم يحدد';
+            const reception = document.querySelector('input[name="reception"]:checked')?.value || 'لم يحدد';
+            const services = document.querySelector('input[name="services"]:checked')?.value || 'لم يحدد';
+            const comments = document.getElementById('comments').value;
+
+            return `تقييم جديد من نزيل الغرفة رقم: ${roomNumber}
+-------------------------
+النظافة: ${cleanliness} نجوم
+خدمات الاستقبال: ${reception} نجوم
+الخدمات بشكل عام: ${services} نجوم
+-------------------------
+
+الملاحظات الإضافية:
+${comments}`;
+        }
     </script>
 
 </body>
